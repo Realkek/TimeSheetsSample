@@ -11,4 +11,6 @@ public class Contract
     public DateTime DateEnd { get; set; }
     public string Description { get; set; }
     public List<Service> Services { get; set; }
+    
+    public ICollection<Sheet> Sheets { get; set; }
 }

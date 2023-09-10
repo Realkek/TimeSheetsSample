@@ -14,7 +14,6 @@ public class TimeSheetDbContext : DbContext
 
     public TimeSheetDbContext(DbContextOptions<TimeSheetDbContext> options) : base(options)
     {
-        
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,5 +24,14 @@ public class TimeSheetDbContext : DbContext
         modelBuilder.Entity<Service>().ToTable("Service");
         modelBuilder.Entity<Sheet>().ToTable("Sheet");
         modelBuilder.Entity<User>().ToTable("User");
+
+        modelBuilder.Entity<Sheet>().HasOne(sheet => sheet.Contract).WithMany(contract => contract.Sheets)
+            .HasForeignKey("ContractId");
+
+        modelBuilder.Entity<Sheet>().HasOne(sheet => sheet.Service).WithMany(service => service.Sheets)
+            .HasForeignKey("ServiceId");
+
+        modelBuilder.Entity<Sheet>().HasOne(sheet => sheet.Employee).WithMany(employee => employee.Sheets)
+            .HasForeignKey("EmployeeId");
     }
 }
