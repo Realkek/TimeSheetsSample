@@ -1,6 +1,8 @@
-﻿namespace TImeSheetsSample.Data.Interfaces;
+﻿using TImeSheetsSample.Models;
 
-public interface IServiceRepo
+namespace TImeSheetsSample.Data.Interfaces;
+
+public interface IServiceRepo : IRepoBase<Service>
 {
     
 }
