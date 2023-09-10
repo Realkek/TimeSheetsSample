@@ -1,9 +1,11 @@
-﻿namespace TImeSheetsSample.Data;
+﻿using System.Collections;
+
+namespace TImeSheetsSample.Data;
 
 public interface IRepoBase<T>
 {
-    T GetItem(Guid id);
-    IEnumerable<T> GetItems();
-    void Add(T item);
-    void Update();
+    Task<T> GetItem(Guid id);
+    Task <IEnumerable<T>> GetItems();
+    Task Add(T item);
+    Task Update();
 }

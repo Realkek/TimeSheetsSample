@@ -1,27 +1,27 @@
 ﻿using TImeSheetsSample.Data.Interfaces;
 using TImeSheetsSample.Models;
 
-namespace TImeSheetsSample.Data.Implementation;
+namespace TImeSheetsSample.Data_Layer.Implementation;
 
 public class ServiceRepo : IServiceRepo
 {
-    public Service GetItem(Guid id)
+    public async Task<Service> GetItem(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Service> GetItems()
+    public async Task<IEnumerable<Service>> GetItems()
     {
         throw new NotImplementedException();
     }
 
-    public void Add(Service item)
+    public async Task Add(Service item)
     {
         throw new NotImplementedException();
     }
     
 
-    public void Update()
+    public async Task Update()
     {
         throw new NotImplementedException();
     }

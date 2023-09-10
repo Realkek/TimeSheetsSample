@@ -5,6 +5,6 @@ namespace TImeSheetsSample.Services.Interfaces;
 
 public interface ISheetService
 {
-    Sheet GetItem(Guid id);
+   Task<Sheet> GetItem(Guid id);
     Guid Create(SheetCreateRequest sheet);
 }

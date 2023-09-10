@@ -1,10 +1,20 @@
-﻿using TImeSheetsSample.Data.Interfaces;
+﻿using System.Diagnostics;
+using TImeSheetsSample.Data_Layer;
+using TImeSheetsSample.Data.Interfaces;
 using TImeSheetsSample.Models;
 
 namespace TImeSheetsSample.Data.Implementation;
 
 public class SheetRepo : ISheetRepo
 {
+    private const string SheetNotFound = "Sheet not found";
+    private readonly TimeSheetDbContext _context;
+
+    public SheetRepo(TimeSheetDbContext context)
+    {
+        _context = context;
+    }
+
     private static List<Sheet> _sheets { get; set; } = new List<Sheet>()
     {
         new Sheet
@@ -13,26 +23,26 @@ public class SheetRepo : ISheetRepo
             EmployeeId = Guid.Parse("bd280568e8b9402e19c17a2f86cb0cbe"),
             ContractId = Guid.Parse("94c021e487dd4d3e3846aa7e14381324"),
             ServiceId = Guid.Parse("d2d83dc4e2128019568b2f39884c695b"),
-            Amount = 25 
+            Amount = 25
         },
     };
 
-    public Sheet GetItem(Guid id)
+    public async Task<Sheet> GetItem(Guid id)
     {
-        return _sheets.FirstOrDefault(x => x.Id == id);
+        return _context.Sheets.Find(id) ?? throw new InvalidOperationException(SheetNotFound);
     }
 
-    public IEnumerable<Sheet> GetItems()
+    public async Task<IEnumerable<Sheet>> GetItems()
     {
         throw new NotImplementedException();
     }
 
-    public void Add(Sheet item)
+    public async Task Add(Sheet item)
     {
-        _sheets.Add(item);
+        await _context.Sheets.AddAsync(item);
     }
-    
-    public void Update()
+
+    public async Task Update()
     {
         throw new NotImplementedException();
     }

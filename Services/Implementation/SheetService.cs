@@ -4,7 +4,9 @@ using TImeSheetsSample.Models.DataTransferObjects;
 using TImeSheetsSample.Services.Interfaces;
 
 namespace TImeSheetsSample.Services.Implementation;
-
+/// <summary>
+/// Сервис оперирования рабочими табелями
+/// </summary>
 public class SheetService : ISheetService
 {
     private readonly ISheetRepo _sheetRepo;
@@ -14,9 +16,9 @@ public class SheetService : ISheetService
         _sheetRepo = sheetRepo;
     }
 
-    public Sheet GetItem(Guid id)
+    public async Task<Sheet> GetItem(Guid id)
     {
-       return _sheetRepo.GetItem(id);
+       return await _sheetRepo.GetItem(id);
     }
     
     public Guid Create(SheetCreateRequest sheetRequest)
