@@ -1,5 +1,6 @@
 ﻿using TImeSheetsSample.Data.Interfaces;
 using TImeSheetsSample.Models;
+using TImeSheetsSample.Models.DataTransferObjects;
 using TImeSheetsSample.Services.Interfaces;
 
 namespace TImeSheetsSample.Services.Implementation;
@@ -17,9 +18,20 @@ public class SheetService : ISheetService
     {
        return _sheetRepo.GetItem(id);
     }
-
-    public void Create(Sheet sheet)
+    
+    public Guid Create(SheetCreateRequest sheetRequest)
     {
+        var sheet = new Sheet()
+        {
+            Id = Guid.NewGuid(),
+            Amount = sheetRequest.Amount,
+            ContractId = sheetRequest.ContractId,
+            Date = sheetRequest.Date,
+            EmployeeId = sheetRequest.EmployeeId,
+            ServiceId = sheetRequest.ServiceId
+            
+        };
         _sheetRepo.Add(sheet);
+        return sheet.Id;
     }
 }

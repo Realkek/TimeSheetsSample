@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TImeSheetsSample.Models;
+using TImeSheetsSample.Models.DataTransferObjects;
 using TImeSheetsSample.Services.Interfaces;
 
 namespace TImeSheetsSample.Controllers;
@@ -23,9 +24,9 @@ public class SheetController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] Sheet sheet)
+    public IActionResult Create([FromBody] SheetCreateRequest sheetCreateRequest)
     {
-        var id = _sheetService.Create(sheet);
+        var id = _sheetService.Create(sheetCreateRequest);
         return Ok(id);  
     }
 }
