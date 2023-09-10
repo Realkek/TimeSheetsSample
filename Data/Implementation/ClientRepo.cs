@@ -15,10 +15,11 @@ public class ClientRepo : IClientRepo
         throw new NotImplementedException();
     }
 
-    public void Add()
+    public void Add(Client item)
     {
         throw new NotImplementedException();
     }
+    
 
     public void Update()
     {

@@ -15,10 +15,11 @@ public class ServiceRepo : IServiceRepo
         throw new NotImplementedException();
     }
 
-    public void Add()
+    public void Add(Service item)
     {
         throw new NotImplementedException();
     }
+    
 
     public void Update()
     {

@@ -15,10 +15,11 @@ public class ContractRepo : IContractRepo
         throw new NotImplementedException();
     }
 
-    public void Add()
+    public void Add(Contract item)
     {
         throw new NotImplementedException();
     }
+    
 
     public void Update()
     {

@@ -15,10 +15,11 @@ public class EmployeeRepo : IEmployeeRepo
         throw new NotImplementedException();
     }
 
-    public void Add()
+    public void Add(Employee item)
     {
         throw new NotImplementedException();
     }
+    
 
     public void Update()
     {
