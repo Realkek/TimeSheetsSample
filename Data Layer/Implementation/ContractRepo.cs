@@ -1,28 +1,42 @@
-﻿using TImeSheetsSample.Data.Interfaces;
+﻿using TImeSheetsSample.Data_Layer.Interfaces;
 using TImeSheetsSample.Models;
 
-namespace TImeSheetsSample.Data.Implementation;
+namespace TImeSheetsSample.Data_Layer.Implementation;
 
 public class ContractRepo : IContractRepo
 {
-    public async Task<Contract> GetItem(Guid id)
+    private readonly TimeSheetDbContext _timeSheetDbContext;
+
+    public ContractRepo(TimeSheetDbContext timeSheetDbContext)
+    {
+        _timeSheetDbContext = timeSheetDbContext;
+    }
+
+    public Task<Contract> GetItem(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<Contract>> GetItems()
+    public Task<IEnumerable<Contract>> GetItems()
     {
         throw new NotImplementedException();
     }
 
-    public async Task Add(Contract item)
+    public Task Add(Contract item)
     {
         throw new NotImplementedException();
     }
-    
 
-    public async Task Update()
+    public Task Update()
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<bool> CheckContractIsActive(Guid id)
+    {
+        var contract = await _timeSheetDbContext.Contracts.FindAsync(id);
+        var now = DateTime.Now;
+        var isActive = now <= contract?.DateEnd && now >= contract?.DateStart;
+        return isActive;
     }
 }

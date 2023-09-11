@@ -18,6 +18,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ISheetRepo, SheetRepo>();
 builder.Services.AddScoped<ISheetService, SheetService>();
+builder.Services.AddScoped<IContractRepo, ContractRepo>();
+builder.Services.AddScoped<IContractService, ContractService>();
 
 var app = builder.Build();
 

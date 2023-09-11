@@ -22,7 +22,10 @@ public class SheetService : ISheetService
     {
         return await _sheetRepo.GetItem(id);
     }
-
+    public async Task<IEnumerable<Sheet>> GetItems()
+    {
+        return await _sheetRepo.GetItems();
+    }
     public async Task<Guid> Create(SheetCreateRequest sheetRequest)
     {
         var sheet = new Sheet()

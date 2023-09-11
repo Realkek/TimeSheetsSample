@@ -1,4 +1,5 @@
-﻿using TImeSheetsSample.Data_Layer.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TImeSheetsSample.Data_Layer.Interfaces;
 using TImeSheetsSample.Models;
 
 namespace TImeSheetsSample.Data_Layer.Implementation;
@@ -20,7 +21,7 @@ public class SheetRepo : ISheetRepo
 
     public async Task<IEnumerable<Sheet>> GetItems()
     {
-        throw new NotImplementedException();
+        return await _context.Sheets.ToListAsync();
     }
 
     public async Task Add(Sheet item)
