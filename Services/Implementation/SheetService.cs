@@ -1,9 +1,11 @@
-﻿using TImeSheetsSample.Data.Interfaces;
+﻿using TImeSheetsSample.Data_Layer.Interfaces;
+using TImeSheetsSample.Data.Interfaces;
 using TImeSheetsSample.Models;
 using TImeSheetsSample.Models.DataTransferObjects;
 using TImeSheetsSample.Services.Interfaces;
 
 namespace TImeSheetsSample.Services.Implementation;
+
 /// <summary>
 /// Сервис оперирования рабочими табелями
 /// </summary>
@@ -18,22 +20,22 @@ public class SheetService : ISheetService
 
     public async Task<Sheet> GetItem(Guid id)
     {
-       return await _sheetRepo.GetItem(id);
+        return await _sheetRepo.GetItem(id);
     }
-    
-    public Guid Create(SheetCreateRequest sheetRequest)
+
+    public async Task<Guid> Create(SheetCreateRequest sheetRequest)
     {
         var sheet = new Sheet()
         {
             Id = Guid.NewGuid(),
-            Amount = sheetRequest.Amount,
-            ContractId = sheetRequest.ContractId,
             Date = sheetRequest.Date,
+            UserId = sheetRequest.UserId,
             EmployeeId = sheetRequest.EmployeeId,
-            ServiceId = sheetRequest.ServiceId
-            
+            ContractId = sheetRequest.ContractId,
+            ServiceId = sheetRequest.ServiceId,
+            Amount = sheetRequest.Amount,
         };
-        _sheetRepo.Add(sheet);
+        await _sheetRepo.Add(sheet);
         return sheet.Id;
     }
 }

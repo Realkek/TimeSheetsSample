@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-using TImeSheetsSample.Data_Layer;
-using TImeSheetsSample.Data.Interfaces;
+﻿using TImeSheetsSample.Data_Layer.Interfaces;
 using TImeSheetsSample.Models;
 
-namespace TImeSheetsSample.Data.Implementation;
+namespace TImeSheetsSample.Data_Layer.Implementation;
 
 public class SheetRepo : ISheetRepo
 {
@@ -15,21 +13,9 @@ public class SheetRepo : ISheetRepo
         _context = context;
     }
 
-    private static List<Sheet> _sheets { get; set; } = new List<Sheet>()
-    {
-        new Sheet
-        {
-            Id = Guid.Parse("23111234-2223-4321-1234-892345721901"),
-            EmployeeId = Guid.Parse("bd280568e8b9402e19c17a2f86cb0cbe"),
-            ContractId = Guid.Parse("94c021e487dd4d3e3846aa7e14381324"),
-            ServiceId = Guid.Parse("d2d83dc4e2128019568b2f39884c695b"),
-            Amount = 25
-        },
-    };
-
     public async Task<Sheet> GetItem(Guid id)
     {
-        return _context.Sheets.Find(id) ?? throw new InvalidOperationException(SheetNotFound);
+        return await _context.Sheets.FindAsync(id) ?? throw new InvalidOperationException(SheetNotFound);
     }
 
     public async Task<IEnumerable<Sheet>> GetItems()
@@ -40,6 +26,7 @@ public class SheetRepo : ISheetRepo
     public async Task Add(Sheet item)
     {
         await _context.Sheets.AddAsync(item);
+        await _context.SaveChangesAsync();
     }
 
     public async Task Update()

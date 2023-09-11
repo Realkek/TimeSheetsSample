@@ -26,7 +26,7 @@ public class SheetController : ControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] SheetCreateRequest sheetCreateRequest)
     {
-        var id = _sheetService.Create(sheetCreateRequest);
-        return Ok(id);  
+        var createdTaskGuid = _sheetService.Create(sheetCreateRequest);
+        return Ok(createdTaskGuid.Id);  
     }
 }
