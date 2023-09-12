@@ -31,16 +31,39 @@ public class SheetsController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Создаёт запись табеля
+    /// </summary>
+    /// <param name="sheetRequest"></param>
+    /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] SheetCreateRequest sheetCreateRequest)
+    public async Task<IActionResult> Create([FromBody] SheetRequest sheetRequest)
     {
-        var isAllowedToCreate = await _contractService.CheckContractIsActive(sheetCreateRequest.ContractId);
+        var isAllowedToCreate = await _contractService.CheckContractIsActive(sheetRequest.ContractId);
         if (isAllowedToCreate is false)
         {
-            return BadRequest($"Contract {sheetCreateRequest.ContractId} is not active");
+            return BadRequest($"Contract {sheetRequest.ContractId} is not active or not found");
         }
 
-        var createdTaskGuid = await _sheetService.Create(sheetCreateRequest);
+        var createdTaskGuid = await _sheetService.Create(sheetRequest);
         return Ok(createdTaskGuid);
+    }
+    /// <summary>
+    /// Обновляет запись табеля
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="sheetRequest"></param>
+    /// <returns></returns>
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] SheetRequest sheetRequest)
+    {
+        var isAllowedToCreate = await _contractService.CheckContractIsActive(sheetRequest.ContractId);
+        if (isAllowedToCreate is false)
+        {
+            return BadRequest($"Contract {sheetRequest.ContractId} is not active or not found");
+        }
+
+        _sheetService.Update(id, sheetRequest);
+        return Ok();
     }
 }

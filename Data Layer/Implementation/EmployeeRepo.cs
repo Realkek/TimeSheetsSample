@@ -1,7 +1,7 @@
 ﻿using TImeSheetsSample.Data.Interfaces;
 using TImeSheetsSample.Models;
 
-namespace TImeSheetsSample.Data.Implementation;
+namespace TImeSheetsSample.Data_Layer.Implementation;
 
 public class EmployeeRepo : IEmployeeRepo
 {
@@ -19,9 +19,8 @@ public class EmployeeRepo : IEmployeeRepo
     {
         throw new NotImplementedException();
     }
-    
 
-    public async Task Update()
+    public Task Update(Employee item)
     {
         throw new NotImplementedException();
     }

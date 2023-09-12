@@ -7,5 +7,6 @@ public interface ISheetService
 {
     Task<Sheet> GetItem(Guid id);
     Task<IEnumerable<Sheet>> GetItems();
-    Task<Guid> Create(SheetCreateRequest sheet);
+    Task<Guid> Create(SheetRequest sheet);
+    void  Update(Guid id, SheetRequest sheetRequest);
 }

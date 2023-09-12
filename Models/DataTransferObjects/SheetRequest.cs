@@ -1,6 +1,6 @@
 ﻿namespace TImeSheetsSample.Models.DataTransferObjects;
 
-public class SheetCreateRequest
+public class SheetRequest
 {
     public DateTime Date { get; set; }
     public Guid UserId { get; set; }

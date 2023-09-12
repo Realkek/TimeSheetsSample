@@ -27,11 +27,12 @@ public class ContractRepo : IContractRepo
         throw new NotImplementedException();
     }
 
-    public Task Update()
+    public async Task Update(Contract item)
     {
-        throw new NotImplementedException();
+         _timeSheetDbContext.Contracts.Update(item);
+         await _timeSheetDbContext.SaveChangesAsync();
     }
-
+    
     public async Task<bool> CheckContractIsActive(Guid id)
     {
         var contract = await _timeSheetDbContext.Contracts.FindAsync(id);

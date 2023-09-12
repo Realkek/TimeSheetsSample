@@ -22,11 +22,13 @@ public class SheetService : ISheetService
     {
         return await _sheetRepo.GetItem(id);
     }
+
     public async Task<IEnumerable<Sheet>> GetItems()
     {
         return await _sheetRepo.GetItems();
     }
-    public async Task<Guid> Create(SheetCreateRequest sheetRequest)
+
+    public async Task<Guid> Create(SheetRequest sheetRequest)
     {
         var sheet = new Sheet()
         {
@@ -40,5 +42,20 @@ public class SheetService : ISheetService
         };
         await _sheetRepo.Add(sheet);
         return sheet.Id;
+    }
+
+    public  void Update(Guid id, SheetRequest sheetRequest)
+    {
+        var sheet = new Sheet()
+        {
+            Id = id,
+            Date = sheetRequest.Date,
+            UserId = sheetRequest.UserId,
+            EmployeeId = sheetRequest.EmployeeId,
+            ContractId = sheetRequest.ContractId,
+            ServiceId = sheetRequest.ServiceId,
+            Amount = sheetRequest.Amount,
+        };
+         _sheetRepo.Update(sheet);
     }
 }
