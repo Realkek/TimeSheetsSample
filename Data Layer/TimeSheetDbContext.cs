@@ -10,7 +10,7 @@ public class TimeSheetDbContext : DbContext
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Service> Services { get; set; }
     public DbSet<Sheet> Sheets { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; } 
 
     public TimeSheetDbContext(DbContextOptions<TimeSheetDbContext> options) : base(options)
     {
