@@ -1,7 +1,7 @@
-﻿using TImeSheetsSample.Data_Layer;
-using TImeSheetsSample.Models;
+﻿using TImeSheetsSample.Models;
+using TImeSheetsSample.Models.Entities;
 
-namespace TImeSheetsSample.Data.Interfaces;
+namespace TImeSheetsSample.Data_Layer.Interfaces;
 
 public interface IClientRepo : IRepoBase<Client>
 {

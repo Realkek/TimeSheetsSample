@@ -1,4 +1,4 @@
-﻿namespace TImeSheetsSample.Models;
+﻿namespace TImeSheetsSample.Models.Entities;
 /// <summary>
 /// Информация о владельце контракта
 /// </summary>

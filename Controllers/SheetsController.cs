@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TImeSheetsSample.Domain.Services.Interfaces;
 using TImeSheetsSample.Models.DataTransferObjects;
-using TImeSheetsSample.Services.Interfaces;
 
 namespace TImeSheetsSample.Controllers;
 

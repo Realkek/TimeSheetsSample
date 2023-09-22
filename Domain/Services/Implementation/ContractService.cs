@@ -1,7 +1,7 @@
 ﻿using TImeSheetsSample.Data_Layer.Interfaces;
-using TImeSheetsSample.Services.Interfaces;
+using TImeSheetsSample.Domain.Services.Interfaces;
 
-namespace TImeSheetsSample.Services.Implementation;
+namespace TImeSheetsSample.Domain.Services.Implementation;
 
 public class ContractService : IContractService
 {

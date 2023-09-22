@@ -1,4 +1,4 @@
-﻿namespace TImeSheetsSample.Services.Interfaces;
+﻿namespace TImeSheetsSample.Domain.Services.Interfaces;
 
 public interface IContractService
 {

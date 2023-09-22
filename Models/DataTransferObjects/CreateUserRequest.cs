@@ -1,4 +1,4 @@
-﻿namespace Timesheets.Models.Dto
+﻿namespace TImeSheetsSample.Models.DataTransferObjects
 {
     public class CreateUserRequest
     {

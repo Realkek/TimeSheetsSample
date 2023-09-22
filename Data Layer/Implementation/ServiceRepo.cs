@@ -1,5 +1,6 @@
-﻿using TImeSheetsSample.Data.Interfaces;
+﻿using TImeSheetsSample.Data_Layer.Interfaces;
 using TImeSheetsSample.Models;
+using TImeSheetsSample.Models.Entities;
 
 namespace TImeSheetsSample.Data_Layer.Implementation;
 

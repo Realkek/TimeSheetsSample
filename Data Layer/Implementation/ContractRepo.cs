@@ -1,15 +1,17 @@
-﻿using TImeSheetsSample.Data_Layer.Interfaces;
+﻿using TImeSheetsSample.Data_Layer.Ef;
+using TImeSheetsSample.Data_Layer.Interfaces;
 using TImeSheetsSample.Models;
+using TImeSheetsSample.Models.Entities;
 
 namespace TImeSheetsSample.Data_Layer.Implementation;
 
 public class ContractRepo : IContractRepo
 {
-    private readonly TimeSheetDbContext _timeSheetDbContext;
+    private readonly TimesheetDbContext _timesheetDbContext;
 
-    public ContractRepo(TimeSheetDbContext timeSheetDbContext)
+    public ContractRepo(TimesheetDbContext timesheetDbContext)
     {
-        _timeSheetDbContext = timeSheetDbContext;
+        _timesheetDbContext = timesheetDbContext;
     }
 
     public Task<Contract> GetItem(Guid id)
@@ -29,13 +31,13 @@ public class ContractRepo : IContractRepo
 
     public async Task Update(Contract item)
     {
-         _timeSheetDbContext.Contracts.Update(item);
-         await _timeSheetDbContext.SaveChangesAsync();
+         _timesheetDbContext.Contracts.Update(item);
+         await _timesheetDbContext.SaveChangesAsync();
     }
     
     public async Task<bool> CheckContractIsActive(Guid id)
     {
-        var contract = await _timeSheetDbContext.Contracts.FindAsync(id);
+        var contract = await _timesheetDbContext.Contracts.FindAsync(id);
         var now = DateTime.Now;
         var isActive = now <= contract?.DateEnd && now >= contract?.DateStart;
         return isActive;

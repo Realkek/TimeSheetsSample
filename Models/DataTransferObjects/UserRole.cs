@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Timesheets.Models.Dto
+﻿namespace TImeSheetsSample.Models.DataTransferObjects
 {
     /// <summary> Информация о роли пользователя </summary>
     public class UserRole
