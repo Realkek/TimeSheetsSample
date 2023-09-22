@@ -1,27 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TImeSheetsSample.Data_Layer.Ef;
 using TImeSheetsSample.Data_Layer.Interfaces;
 using TImeSheetsSample.Models;
+using TImeSheetsSample.Models.Entities;
 
 namespace TImeSheetsSample.Data_Layer.Implementation;
 
 public class SheetRepo : ISheetRepo
 {
-    private const string SheetNotFound = "Sheet not found";
-    private readonly TimeSheetDbContext _context;
+    private readonly TimesheetDbContext _context;
 
-    public SheetRepo(TimeSheetDbContext context)
+    public SheetRepo(TimesheetDbContext context)
     {
         _context = context;
     }
 
     public async Task<Sheet> GetItem(Guid id)
     {
-        return await _context.Sheets.FindAsync(id) ?? throw new InvalidOperationException(SheetNotFound);
+        var result = await _context.Sheets.FindAsync(id);
+
+        return result;
     }
 
     public async Task<IEnumerable<Sheet>> GetItems()
     {
-        return await _context.Sheets.ToListAsync();
+        var result =  await _context.Sheets.ToListAsync();
+            
+        return result;
     }
 
     public async Task Add(Sheet item)
@@ -34,5 +39,15 @@ public class SheetRepo : ISheetRepo
     {
         _context.Sheets.Update(item);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Sheet>> GetItemsForInvoice(Guid contractId, DateTime dateStart, DateTime dateEnd)
+    {
+        var sheets =  await _context.Sheets
+            .Where(x => x.ContractId == contractId)
+            .Where(x => x.Date >= dateStart && x.Date <= dateEnd)
+            .ToListAsync();
+
+        return sheets;
     }
 }
