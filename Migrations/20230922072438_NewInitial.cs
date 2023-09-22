@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TImeSheetsSample.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialData : Migration
+    public partial class NewInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Client",
+                name: "clients",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -20,11 +20,11 @@ namespace TImeSheetsSample.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Client", x => x.Id);
+                    table.PrimaryKey("PK_clients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contract",
+                name: "contracts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -35,11 +35,11 @@ namespace TImeSheetsSample.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contract", x => x.Id);
+                    table.PrimaryKey("PK_contracts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employee",
+                name: "employees",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -47,23 +47,46 @@ namespace TImeSheetsSample.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.Id);
+                    table.PrimaryKey("PK_employees", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserName = table.Column<string>(type: "text", nullable: false)
+                    Username = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false),
+                    Role = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Service",
+                name: "invoices",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ContractId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateStart = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateEnd = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    SumAmount = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_invoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_invoices_contracts_ContractId",
+                        column: x => x.ContractId,
+                        principalTable: "contracts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "services",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -72,67 +95,85 @@ namespace TImeSheetsSample.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Service", x => x.Id);
+                    table.PrimaryKey("PK_services", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Service_Contract_ContractId",
+                        name: "FK_services_contracts_ContractId",
                         column: x => x.ContractId,
-                        principalTable: "Contract",
+                        principalTable: "contracts",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sheet",
+                name: "sheets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
                     ContractId = table.Column<Guid>(type: "uuid", nullable: false),
                     ServiceId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Amount = table.Column<int>(type: "integer", nullable: false)
+                    InvoiceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Amount = table.Column<int>(type: "integer", nullable: false),
+                    IsApproved = table.Column<bool>(type: "boolean", nullable: false),
+                    ApprovedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sheet", x => x.Id);
+                    table.PrimaryKey("PK_sheets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sheet_Contract_ContractId",
+                        name: "FK_sheets_contracts_ContractId",
                         column: x => x.ContractId,
-                        principalTable: "Contract",
+                        principalTable: "contracts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Sheet_Employee_EmployeeId",
+                        name: "FK_sheets_employees_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employee",
+                        principalTable: "employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Sheet_Service_ServiceId",
+                        name: "FK_sheets_invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "invoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_sheets_services_ServiceId",
                         column: x => x.ServiceId,
-                        principalTable: "Service",
+                        principalTable: "services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Service_ContractId",
-                table: "Service",
+                name: "IX_invoices_ContractId",
+                table: "invoices",
                 column: "ContractId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sheet_ContractId",
-                table: "Sheet",
+                name: "IX_services_ContractId",
+                table: "services",
                 column: "ContractId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sheet_EmployeeId",
-                table: "Sheet",
+                name: "IX_sheets_ContractId",
+                table: "sheets",
+                column: "ContractId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sheets_EmployeeId",
+                table: "sheets",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sheet_ServiceId",
-                table: "Sheet",
+                name: "IX_sheets_InvoiceId",
+                table: "sheets",
+                column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sheets_ServiceId",
+                table: "sheets",
                 column: "ServiceId");
         }
 
@@ -140,22 +181,25 @@ namespace TImeSheetsSample.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Client");
+                name: "clients");
 
             migrationBuilder.DropTable(
-                name: "Sheet");
+                name: "sheets");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "users");
 
             migrationBuilder.DropTable(
-                name: "Employee");
+                name: "employees");
 
             migrationBuilder.DropTable(
-                name: "Service");
+                name: "invoices");
 
             migrationBuilder.DropTable(
-                name: "Contract");
+                name: "services");
+
+            migrationBuilder.DropTable(
+                name: "contracts");
         }
     }
 }
