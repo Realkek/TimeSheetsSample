@@ -1,24 +1,17 @@
-using Microsoft.EntityFrameworkCore;
-using TImeSheetsSample.Data_Layer;
-using TImeSheetsSample.Data_Layer.Implementation;
-using TImeSheetsSample.Data_Layer.Interfaces;
-using TImeSheetsSample.Data.Interfaces;
-using TImeSheetsSample.Services.Implementation;
-using TImeSheetsSample.Services.Interfaces;
+using TImeSheetsSample.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<TimeSheetDbContext>(options => options.UseNpgsql(connectionString));
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.ConfigureDbContext(builder.Configuration);
+builder.Services.ConfigureAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
+builder.Services.ConfigureRepositories();
+builder.Services.ConfigureDomainServices();
+builder.Services.ConfigureBackendSwagger();
+builder.Services.ConfigureValidation();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ISheetRepo, SheetRepo>();
-builder.Services.AddScoped<ISheetService, SheetService>();
-builder.Services.AddScoped<IContractRepo, ContractRepo>();
-builder.Services.AddScoped<IContractService, ContractService>();
+builder.Services.AddControllers(); 
 
 var app = builder.Build();
 
@@ -27,6 +20,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Timesheets v1"));
 }
 
 app.UseHttpsRedirection();
